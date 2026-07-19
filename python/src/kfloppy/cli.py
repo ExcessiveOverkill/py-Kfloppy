@@ -79,11 +79,35 @@ def main(argv: list[str] | None = None) -> int:
         format="%(asctime)s %(levelname)s %(name)s %(message)s",
     )
 
-    transport = None if args.dry_run else open_serial(config.serial)
+    logger = logging.getLogger("pykfloppy")
+    logger.info(
+        "Starting pyKfloppy (root=%s, dry_run=%s, verbose=%s)",
+        config.storage_root,
+        args.dry_run,
+        config.verbose,
+    )
+    logger.info(
+        "Serial config: port=%s baudrate=%s parity=%s stopbits=%s timeout=%s",
+        config.serial.port,
+        config.serial.baudrate,
+        config.serial.parity,
+        config.serial.stopbits,
+        config.serial.timeout,
+    )
+
+    transport = None
+    if not args.dry_run:
+        try:
+            transport = open_serial(config.serial)
+        except Exception as exc:
+            logger.error("Failed to open serial port %s: %s", config.serial.port, exc)
+            logger.error("Check port name, permissions, and that no other app is using the port.")
+            return 2
+
     server = KFloppyServer(config, transport=transport)
 
     if args.dry_run:
-        logging.getLogger("pykfloppy").info("Dry run mode enabled")
+        logger.info("Dry run mode enabled")
         return 0
 
     try:

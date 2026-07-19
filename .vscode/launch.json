@@ -1,0 +1,64 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "pyKfloppy: Serial Emulator",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/run_kfloppy.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "--config",
+        "python/config/kfloppy.ini",
+        "--root",
+        "captures",
+        "--verbose"
+      ]
+    },
+    {
+      "name": "pyKfloppy: Serial Emulator (Choose Port)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/run_kfloppy.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "--config",
+        "python/config/kfloppy.ini",
+        "--root",
+        "captures",
+        "--port",
+        "${input:serialPort}",
+        "--verbose"
+      ]
+    },
+    {
+      "name": "pyKfloppy: Dry Run",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/run_kfloppy.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "--config",
+        "python/config/kfloppy.ini",
+        "--root",
+        "captures",
+        "--dry-run",
+        "--verbose"
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "serialPort",
+      "type": "promptString",
+      "description": "Serial port to open (example: COM3)",
+      "default": "COM3"
+    }
+  ]
+}

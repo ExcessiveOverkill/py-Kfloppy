@@ -58,3 +58,27 @@ Common flags:
 - `--timeout <seconds>` - Serial timeout (default 1.0)
 - `--dry-run` - Start without opening a serial port
 - `--verbose` - Enable debug logging
+
+## Debug In VS Code
+
+Use the workspace launch configurations in `.vscode/launch.json`:
+
+- **pyKfloppy: Dry Run** - validates startup and config without touching serial hardware.
+- **pyKfloppy: Serial Emulator** - opens the configured serial port and waits for controller traffic.
+- **pyKfloppy: Serial Emulator (Choose Port)** - prompts for a COM port each time you start debugging.
+
+Quick steps:
+
+1. Open the Run and Debug panel.
+2. Select one of the `pyKfloppy` launch profiles.
+3. Press `F5`.
+
+At startup you should see logs like:
+
+- `Starting pyKfloppy (...)`
+- `Serial config: ...`
+- `Serial transport connected; waiting for controller traffic`
+
+If no traffic arrives, the emulator now logs every 10 seconds:
+
+- `No serial data received yet; still waiting`

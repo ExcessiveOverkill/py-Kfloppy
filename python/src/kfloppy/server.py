@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 import logging
+import time
 from typing import Protocol
 
 from .config import AppConfig
@@ -49,9 +50,16 @@ class KFloppyServer:
     def run_forever(self) -> None:
         if self.transport is None:
             raise RuntimeError("No transport configured")
+
+        self.logger.info("Serial transport connected; waiting for controller traffic")
+        last_idle_log = time.monotonic()
         while True:
             chunk = self.transport.read(1024)
             if not chunk:
+                now = time.monotonic()
+                if now - last_idle_log >= 10:
+                    self.logger.info("No serial data received yet; still waiting")
+                    last_idle_log = now
                 continue
             self.handle_bytes(chunk)
 
