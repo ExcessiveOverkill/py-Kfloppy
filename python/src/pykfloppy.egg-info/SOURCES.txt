@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+src/kfloppy/__init__.py
+src/kfloppy/__main__.py
+src/kfloppy/cli.py
+src/kfloppy/config.py
+src/kfloppy/protocol.py
+src/kfloppy/server.py
+src/kfloppy/storage.py
+src/pykfloppy.egg-info/PKG-INFO
+src/pykfloppy.egg-info/SOURCES.txt
+src/pykfloppy.egg-info/dependency_links.txt
+src/pykfloppy.egg-info/entry_points.txt
+src/pykfloppy.egg-info/requires.txt
+src/pykfloppy.egg-info/top_level.txt
+tests/test_protocol.py
+tests/test_storage.py

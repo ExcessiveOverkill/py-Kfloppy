@@ -1,0 +1,68 @@
+		KAREL Menuing System Help Screens
+
+Each screen in this file must be exactly 18 lines long and no more than
+81 display characters long (132 characters total).
+
+-- Terminal help screen (position: @210)
+
+  Connect the communications cable from the controller CRT/KB port to the
+  serial port you are using on the PC.  (Default port is COM1:)
+                           [ Keyboard mapping ]
+    PC          Controller                PC          Controller
+      F1          F1                        Scroll Lock Hold Screen
+      F2          F2                        Shf-F2      Cancel Command
+      F3          F3                        ^^C          Cancel Command
+      F4          F4                        ^^W          Repaint Screen
+      F5          F5                        Up          Up
+      F6          F6                        Down        Down
+      F7          F7                        Left        Left
+      F8          F8                        Right       Right
+      F9          F9                        Insert      Select
+      F10         F10                       Page Up     Prev Screen
+      Alt-X       Exit terminal emulator    Page Down   Next Screen
+      Alt-H       Display help screen       Delete      Find        
+      Alt-S       Display the setup screens F11         Do        
+
+-- End of Terminal help screen
+
+-- Communications help screen (position: @1426)
+
+
+
+
+  This selection requires the serial communications option on the KAREL
+  controller.
+
+  - Ensure that the physical connection between the controller and the PC
+    is in place (RS-232-C cable, drop cable, etc.)
+  - Start the desired protocol on the controller (DDCMP on C3:, MAP).
+  - Start NCP on the desired controller port (C3:, M0:).
+
+
+
+
+
+
+
+
+-- End comm help screen
+-- Editor help screen (position: @01861)
+
+
+
+You have not yet selected an editor.  To select an editor, select submenu
+"Development Options Setup".  This submenu can be reached from the Main menu
+under "Program Development", "Dictionary and Forms Manager", and "General
+Setup".  When in "Development Options Setup", select "Default editor".  This
+will prompt you for your editor's startup file.  This name can be a .EXE, .COM
+or .BAT file.  This file must be on the DOS PATH.  See your DOS reference man-
+ual on how to set your PATH.  If you wish to use this editor every time you
+enter the KAREL menus, select "Make selected options permanent".  The KAREL
+menuing system will store this file name and load it each time you enter the
+KAREL menus.
+
+If your editor is a word processor, make sure that you save your files as
+ASCII.
+
+
+-- End of Editor help

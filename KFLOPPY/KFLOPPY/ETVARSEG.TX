@@ -1,0 +1,16 @@
+$$"Corrupt variable file"?54$"Open Error on File"?54$"%s array length updated"
+?56$"%s memory not updated"?57$"%s PC array length ignored"?56$"Unknown Variabl"
+"e Name"?59$"Unknown Type Code"?60$"Type Name not found"?60$"SV Load at CTRL St"
+"art Only"?62$"Variable/field write-protected"?63$"No data defined for program"
+?64$"Create var - %s failed"?65$"Variable Already Exists"?66$"Create type - %s "
+"failed"?67$"Too many vars/nodes/programs"?68$"Axis configuration mismatch"?69$
+"Sysvar version mismatch"?70$"Compatible Type Already Exists"?71$"Rename target"
+" exists"?72$"[%s]%s not fnd"?73$"Memory allocation failure"?74$"Duplicate crea"
+"tion TYPE mismatch"?75$"Array len creation mismatch"?76$"Bad variable or regis"
+"ter index"?77$"Vision reference error"?78$"File sequence error"?79$"Variable u"
+"sed by other program"?80$"Value out of range"?81$"Requires PROGRAM password"
+?82$"Requires SETUP password"?83$"Requires INSTALL password"?84$"Variable size "
+"too big"?85$"Maximum path length exceeded"?86$"Variable cannot be accessed"?87
+$$"CMOS memory is corrupt"?89$"Position register is locked"?88$"Cannot change C"
+"MOS/DRAM type"?90$"Data set created"$"Cannot load at CONTROL START 2"?91$"Inva"
+"lid Node Number"?92$"TEMP type invalid for CMOS create"?93

@@ -1,0 +1,933 @@
+I. Headers
+
+  A) IF NOT %H == "" GOTO #ZA -- First pass initialization
+  #) LOAD
+  #) IF NOT ERRORLEVEL #1 GOTO "Loaded"
+  #) SET %A ""  -- formatter display
+  #) SET %B ""  -- translator display
+  #) SET %E ""
+  #) SET %K "off" -- Floppy emulator switch (same as %f)
+  #) SET %c "COM1"
+  #) SET %e "/L"
+  #) SET %k "2" -- formatter indent
+  #) SET %r "4" -- formatter comment processing
+  #) SET %u "2" -- formatter user word
+
+  #) LABEL "Loaded"
+  #) SET %o "on "
+  #) SET %f "off"
+  #) SET %y "yes"
+  #) SET %n "no "
+  #) SET %H "%f"
+  #) SET %Q "%o"
+  #) SET %M "  Press any key to return..."
+  #) SET %i "@0"
+  #) SET %F "%@64-"
+  #) SET %T "%F"
+  #) SET %x ""
+
+  #) GOTO #ZB
+
+  ZA) IF %H == "%o" GOTO #ZK
+  ZB) ECHO #1 ""
+  ZC) ECHO #2 "%@24 KAREL Off-line Programming Software"
+  ZD) ECHO #3 "%@30 for the IBM PC (OLPC)"
+  ZE) ECHO #4 ""
+  ZF) ECHO #5 "%@14 Copyright (C) 1988 through 1997 FANUC Robotics Corp."
+  ZG) ECHO #6 "%@30 All rights reserved."
+  ZH) ECHO #7 ""
+  ZI) ECHO #8 "%@14 Software Version: 4.31  Serial #%~"
+  ZJ) GOTO #ZZ
+  
+  ZK) ECHO #1 "   %+H%+72L%+J"
+  ZL) ECHO #2 "   %+O Help is now turned on in all menus.  Use one of two ways to select the %+N"
+  ZM) ECHO #3 "   %+O desired menu item:%@53 %+N"
+  ZN) ECHO #4 "   %+O%@72 %+N"
+  ZO) ECHO #5 "   %+O     1) Move the highlight with the up, down, left, or right arrow keys %+N"
+  ZP) ECHO #6 "   %+O        and press Enter.%@48 %+N"
+  ZQ) ECHO #7 "   %+O     2) Type in the first letter of the menu title.%@21 %+N"
+  ZR) ECHO #8 "   %+I%+72M%+K"
+  ZZ) REM -- header exit point
+  
+II. Menus
+
+  A) ECHO #1 "   %+H%+72L%+J"
+  B) ECHO #2 "   %+O Directory: %@59[ %+N"
+  C) ECHO #3 "   %+O File: %@64F %+N"
+  D) ECHO #4 "   %+O Type: %@30T%@35 %+N"
+  E) ECHO #5 "   %+I%+72M%+K"
+
+  F) SUBMENU #7 "File Transfer" IF %H == "%o" -
+       HELP "  Directory and program/data transfer utilities"
+    1) ECHO #2 "   %+H%+72L%+J"
+    2) ECHO #3 "   %+O Directory: %@59[ %+N"
+    3) ECHO #4 "   %+O File: %@64F %+N"
+    4) ECHO #5 "   %+O Type: %@30T%@35 %+N"
+    5) ECHO #6 "   %+I%+72M%+K"
+
+    6) ECHO #9 "  Communications port is %c:"
+    8) MENU #12 "Transfer Files with KCL COPY" IF %H == "%o" -
+        HELP "  Copy files to/from PC using KAREL controller as master."
+      a) IF %K == "%o" GOTO "Old"
+      #) SET %U "KFLOPPY.EXE"
+      #) IF %_ == "/c" SET %V "/p=%c /c"
+      #) ELSE SET %V "/p=%c /c-"
+      #) GOTO "Doit"
+      #) LABEL "Old"
+      #) SET %U "KFDCOPY.EXE"
+      #) SET %V "%c /A %_"
+      #) LABEL "Doit"
+      #) SET %W "Transfer Files"
+      #) SET %X "#1"
+      #) CLEAR
+      #) FUNCTION #14 %Z "%%U%%V%%W%%X"
+      
+    11) MENU #14 "Local PC Directory" IF %H == "%o" HELP "  DOS directory"
+      a) FUNCTION #5
+
+    12) MENU #31 "Change Default Directory" IF %H == "%o" -
+          HELP "  Change KAREL Menuing System working path"
+      a) FUNCTION #2
+      
+    14) MENU #33 "Port Setup" IF %H == "%o" -
+      HELP "  Communications port setups."
+      a) FUNCTION #4
+
+  G) SUBMENU #8 "Program Development" IF %H == "%o" -
+       HELP "  KAREL program development tools; editor, translator, etc."
+    1) ECHO #2 "   %+H%+72L%+J"
+    2) ECHO #3 "   %+O Directory: %@59[ %+N"
+    3) ECHO #4 "   %+O File: %@64F %+N"
+    4) ECHO #5 "   %+O Type: %@30T%@35 %+N"
+    5) ECHO #6 "   %+I%+72M%+K"
+
+    6) MENU #9 "Edit Selected File" IF %H == "%o" HELP "  File editor"
+      a) FUNCTION #15
+
+    7) MENU #11 "Translate a File" IF %H == "%o" HELP "  KAREL translator"
+      a) IF %F == "-^*" FUNCTION #1 %W "%%F%%T"
+      b) IF %F == "^*.KL" GOTO #h
+      c) STATUS "Translator: Wrong file type."
+      d) ECHO #2 "  Cannot translate file %F."
+      e) ECHO #4 "    File type must be .KL."
+      f) PAUSE "%M"
+      g) GOTO #n
+      h) SET %U "KTRANS.EXE"
+      i) SET %V "%F %g %B"
+      j) SET %W "Translator"
+      k) SET %X "#1*"
+      l) CLEAR
+      m) FUNCTION #14 %Z "%%U%%V%%W%%X"
+      n) REM
+    
+    8) MENU #13 "Print Text File" IF %H == "%o" HELP "  KAREL print utility"
+      a) IF %F == "-^*" FUNCTION #1 %W "%%F%%T"
+      b) IF %F == "^*.VR" GOTO #g
+      c) IF %F == "^*.SV" GOTO #g
+      d) IF %F == "^*.SP" GOTO #g
+      e) SET %q "%F"
+      f) GOTO #q
+      g) SET %Y "%-H^nConverting %F^n  to %FS.^n"
+      h) SET %U "KCONVARS.EXE"
+      i) SET %V "%F %FS %_"
+      j) SET %W "File Converter"
+      k) SET %X "#256+"
+      l) FUNCTION #14 %Z "%%U%%V%%W%%X"
+
+      m) IF %Z == "%n" GOTO #zz
+      n) QUERY %R #2 "        Print file %FS ([Y]/N)? "
+      o) IF %R == "n^*" GOTO #zz
+      p) SET %q "%FS"
+      q) SET %U "KPRINT.EXE"
+      r) SET %V "%q %d %e %_"
+      s) SET %W "File Printer"
+      t) SET %X "#1"
+      u) CLEAR
+      v) FUNCTION #14 %Z "%%U%%V%%W%%X"
+      zz) REM
+
+    9) MENU #15 "Format a Program File" IF %H == "%o" -
+        HELP "  KAREL program file text formatter"
+      a) IF %F == "-^*" FUNCTION #1 %W "%%F%%T"
+      c) IF %F == "^*.KL" GOTO #i
+      d) STATUS "Text Formatter: Wrong file type."
+      e) ECHO #4 "  Cannot format file %F."
+      f) ECHO #6 "    File type must be .KL."
+      g) PAUSE "%M"
+      h) GOTO #zz
+      i) ECHO #3 ""
+      j) SET %U "KFORMAT.EXE"
+      k) SET %V "%F /I%k /U%u /M%r %A %_"
+      l) SET %W "Text Formatter"
+      m) SET %X "#1*"
+      o) FUNCTION #14 %Z "%%U%%V%%W%%X"
+      zz) REM
+
+    10) MENU #17 "Generate a Cross Reference" IF %H == "%o" -
+        HELP "  KAREL program file cross reference utility"
+      a) IF %F == "-^*" FUNCTION #1 %W "%%F%%T"
+      c) IF %F == "^*.KL" GOTO #i
+      d) STATUS "Cross Reference: Wrong file type."
+      e) ECHO #4 "  Cannot cross reference file %F."
+      f) ECHO #6 "    File type must be .KL."
+      g) PAUSE "%M"
+      h) GOTO #zz
+      i) SET %Y "^n%@17 KAREL program file cross reference utility.^n^n"
+      j) SET %U "KXREF.EXE"
+      k) SET %V "%F /ilp /o"
+      l) SET %W "Cross Reference"
+      m) SET %X "#1$*+"
+      o) FUNCTION #14 %Z "%%U%%V%%W%%X"
+      zz) REM
+
+    11) MENU #28 "KAREL Program Conversion" IF %H == "%o" -
+        HELP "  Convert KAREL V2.XX programs to V3.XX"
+      a) IF %F == "-^*" FUNCTION #1 %W "%%F%%T"
+      b) IF %F == "^*.KL" GOTO #i
+      d) STATUS "KAREL Convert: Wrong file type."
+      e) ECHO #2 "  Cannot convert file %F."
+      f) ECHO #4 "    File type must be .KL"
+      g) PAUSE "%M"
+      h) GOTO #zz
+      i) SET %U "KNEW.EXE"
+      j) SET %V "%F %A %_"
+      k) SET %W "KAREL Convert"
+      l) SET %X "#1"
+      m) CLEAR
+      n) FUNCTION #14 %Z "%%U%%V%%W%%X"
+      zz) REM
+
+    12) MENU #30 "Working File Selection" IF %H == "%o" HELP "  Default file selection"
+      a) FUNCTION #1 %W "%%F%%T"
+
+    13) MENU #32 "Change Default Directory" IF %H == "%o" -
+          HELP "  Change KAREL Menuing System working path"
+      a) FUNCTION #2
+      
+    14) MENU #34 "Local PC Directory" IF %H == "%o" HELP "  DOS directory"
+      a) FUNCTION #5
+
+    15) MENU #36 "Development Options Setup" IF %H == "%o" -
+        HELP "  Program development defaults"
+      a) FUNCTION #3
+
+  H) SUBMENU #9 "Dictionary Manager" IF %H == "%o" -
+       HELP "  Create and modify dictionary files"
+    1) ECHO #2 "   %+H%+72L%+J"
+    2) ECHO #3 "   %+O Directory: %@59[ %+N"
+    3) ECHO #4 "   %+O File: %@64F %+N"
+    4) ECHO #5 "   %+O Type: %@30T%@35 %+N"
+    5) ECHO #6 "   %+I%+72M%+K"
+
+    6) MENU #9 "Select a dictionary file" IF %H == "%o" -
+        HELP "  Select a text file with .tx .utx, .etx, or .ftx extention."
+      a) FUNCTION #16 %W "%%F%%T"
+
+    7) MENU #11 "Edit a dictionary file" IF %H == "%o" -
+      HELP "  Create or change a .tx .utx, .etx, or .ftx file."
+      a) IF NOT %E == "" GOTO "Edit"
+      #) CLEAR
+      #) SET %i "@1861"
+      #) LIST %i "%]KAREL.HLP"
+      #) PAUSE "%M"
+      #) GOTO "End"
+      #) LABEL "Edit"
+      #) IF %F == "-^*" FUNCTION #16 %W "%%F%%T"
+      #) CLEAR
+      #) SET %X "#256"
+      #) SET %V "%F"
+      #) SET %U "%E"
+      #) SET %W "Editor"
+      #) FUNCTION #14 %Z "%%U%%V%%W%%X"
+      #) LABEL "End"
+
+    8) MENU #13 "Compress a dictionary file" IF %H == "%o" -
+      HELP "  Change the .utx, .etx, or .ftx file into a .tx file."
+      a) IF %F == "-^*" FUNCTION #16 %W "%%F%%T"
+      #) IF %F == "^*.UTX" GOTO "Proc"
+      #) IF %F == "^*.ETX" GOTO "Proc"
+      #) IF %F == "^*.FTX" GOTO "Proc"
+      #) STATUS "Dictionary Compressor: Wrong file type."
+      #) ECHO #2 "  Cannot convert file %F."
+      #) ECHO #4 "    File type must be .UTX, .ETX, or .FTX"
+      #) PAUSE "%M"
+      #) GOTO #zz
+      #) LABEL "Proc"
+      #) SET %U "KCDICT.EXE"
+      #) SET %V "%F"
+      #) SET %W "Dictionary Compressor"
+      #) SET %X "*"
+      #) CLEAR
+      #) FUNCTION #14 %Z "%%U%%V%%W%%X"
+      zz) REM
+
+    13) MENU #28 "Change Default Directory" IF %H == "%o" -
+          HELP "  Change KAREL Menuing System working path"
+      a) FUNCTION #2
+      
+    14) MENU #30 "Local PC Directory" IF %H == "%o" HELP "  DOS directory"
+      a) FUNCTION #5
+
+    15) MENU #32 "Development Options Setup" IF %H == "%o" -
+        HELP "  Program development defaults"
+      a) FUNCTION #3
+
+  I) MENU #10 "Terminal Emulator" IF %H == "%o" -
+       HELP "  KAREL R-J console emulator program"
+    1) SET %i "@210"
+    2) LIST %i "%]KAREL.hlp"
+    3) PAUSE "  Press ENTER when ready to enter the terminal emulator."
+    4) SET %U "220.EXE"
+    5) SET %V ""
+    6) SET %W "Terminal Emulator"
+    7) SET %X "#256"
+    9) FUNCTION #14 %Z "%%U%%V%%W%%X"
+
+  J) MENU #18 "Working File Selection" IF %H == "%o" -
+       HELP "  KAREL default file name selection"
+    1) FUNCTION #1 %W "%%F%%T"
+
+  K) MENU #19 "Change Default Directory" IF %H == "%o" -
+       HELP "  Change KAREL Menuing System working path"
+    1) FUNCTION #2
+
+  L) SUBMENU #20 "General Setup" IF %H == "%o" -
+       HELP "  Change KAREL Menuing System defaults"
+    1) ECHO #2 "   %+H%+72L%+J"
+    2) ECHO #3 "   %+O Directory: %@59[ %+N"
+    3) ECHO #4 "   %+O File: %@64F %+N"
+    4) ECHO #5 "   %+O Type: %@30T%@35 %+N"
+    5) ECHO #6 "   %+I%+72M%+K"
+
+    6) MENU #9 "Development Options Setup" IF %H == "%o" -
+        HELP "  Program development defaults"
+      a) FUNCTION #3
+
+    7) MENU #11 "Port Setup" IF %H == "%o" -
+      HELP "  Communications port setups."
+      a) FUNCTION #4
+
+    8) MENU #13 "Terminal Emulator Setup" IF %H == "%o" -
+      HELP "  Run Terminal Emulator Setup program."
+      a) IF EXIST "V2CONFIG.COM" SET %U "%&"
+      #) ELSE IF EXIST "C2CONFIG.COM" SET %U "%&"
+      #) ELSE SET %U "C2CONFIG.EXE"
+      #) SET %V "%]220.SET"
+      #) SET %W "Terminal Emulator Configuration"
+      #) SET %X "#256"
+      #) CLEAR
+      #) FUNCTION #14 %Z "%%U%%V%%W%%X"
+
+  M) MENU #21 "Suspend KAREL Menuing System" IF %H == "%o" HELP "  Execute DOS shell"
+    1) SYSTEM
+
+III. Main Menu Softkeys
+
+  A) LABEL #1 "Help %Q"
+    1) IF %H == "%o" GOTO #5
+    2) SET %H "%o"
+    3) SET %Q "%f"
+    4) GOTO #7
+    5) SET %H "%f"
+    6) SET %Q "%o"
+    7) HELP "  Help screens are now %H"
+
+  B) LABEL #2 "Work File"
+    1) FUNCTION #1 %W "%%F%%T"
+
+  C) LABEL #3 "Change Dir."
+    1) FUNCTION #2
+
+  D) LABEL #4 "Edit"
+    1) FUNCTION #15
+
+  E) LABEL #5 "Local Dir."
+    1) FUNCTION #5
+    
+  F) LABEL #6 "Suspend"
+    1) SYSTEM
+
+  G) LABEL #7 "Reset"
+    1) STATUS -- No parameters means clear status line.
+
+IV. Submenu Softkeys
+
+  A) LABEL #1 "Help %Q"
+    1) IF %H == "%o" GOTO #5
+    2) SET %H "%o"
+    3) SET %Q "%f"
+    4) GOTO #7
+    5) SET %H "%f"
+    6) SET %Q "%o"
+    7) HELP "  Help screens are now %H"
+
+  B) LABEL #2 "Work File"
+    1) FUNCTION #1 %W "%%F%%T"
+
+  C) LABEL #3 "Change Dir."
+    1) FUNCTION #2
+
+  D) LABEL #4 "Edit"
+    1) FUNCTION #15
+
+  E) LABEL #5 "Local Dir."
+    1) FUNCTION #5
+    
+  F) LABEL #6 "Suspend"
+    1) SYSTEM
+
+  G) LABEL #7 "Reset"
+    1) STATUS -- No parameters means clear status line.
+
+V.  Functions
+
+  A) FUNCTION #1
+  
+  -- This function sets up the working file name
+  
+    1) STATUS
+    2) ECHO #1 "   %+H%+72L%+J"
+    3) ECHO #2 "   %+O Directory: %@59[ %+N"
+    4) ECHO #3 "   %+O File: %@64F %+N"
+    5) ECHO #4 "   %+O Type: %@30T%@35 %+N"
+    6) ECHO #5 "   %+I%+72M%+K"
+
+    7) ECHO #6 "                          Select Search File Type"
+    8) ITEM #8   "New File Name" IF %H == "%o" HELP "  Manually enter a file name."
+    9) ITEM #9   "Program File Type" IF %H == "%o" HELP "  File extension .KL"
+    10) ITEM #10  "Command File Type" IF %H == "%o" HELP "  File extension .CF"
+    11) ITEM #11 "Listing File Type" IF %H == "%o" HELP "  File extension .LS"
+    12) ITEM #12 "Variable File Type" IF %H == "%o" HELP "  File extension .VR"
+    13) ITEM #13 "System Variable File Type" IF %H == "%o" HELP "  File extension .SV"
+    14) ITEM #14 "Data File Type" IF %H == "%o" HELP "  File extension .DT"
+    15) ITEM #15 "Text File Types" IF %H == "%o" -
+          HELP "  File extensions .KL, .CF, .LS, .TX, .BK, .VRS, .SVS, and .XRF"
+    16) ITEM #16 "All Variable File Types" IF %H == "%o" -
+          HELP "  File extensions .VR and .SV"
+    17) ITEM #17 "KAREL File Types" IF %H == "%o" -
+          HELP "  Files .KL, .CF, .LS, .VR, .SV, .DT, .TX, .BK, .VRS, .SVS, and .XRF"
+    18) ITEM #18 "Whole Directory"
+    19) SELECT %0
+    20) IF %0 == "N^*" GOTO "NEW"
+    21) HELP "  Use TAB to switch between select mode and entry mode."
+    22) IF %0 == "P^*" FILE %j "*.kl"
+    23) ELSE IF %0 == "C^*" FILE %j "*.cf"
+    24) ELSE IF %0 == "L^*" FILE %j "*.ls"
+    25) ELSE IF %0 == "V^*" FILE %j "*.vr"
+    26) ELSE IF %0 == "S^*" FILE %j "*.sv"
+    27) ELSE IF %0 == "D^*" FILE %j "*.dt"
+    28) ELSE IF %0 == "T^*" FILE %j "*.kl *.cf *.ls *.tx *.bk *.vrs *.svs *.xrf"
+    29) ELSE IF %0 == "A^*" FILE %j "*.vr *.sv"
+    30) ELSE IF %0 == "K^*" -
+      FILE %j "*.kl *.cf *.ls *.vr *.sv *.dt *.tx *.bk *.vrs *.svs *.xrf"
+    31) ELSE FILE %j "*.*"
+
+    35) IF %j == "^*.kl" SET %2 "Program"
+    36) ELSE IF %j == "^*.cf" SET %2 "Command"
+    37) ELSE IF %j == "^*.ls" SET %2 "Listing"
+    38) ELSE IF %j == "^*.vr" SET %2 "Variable"
+    39) ELSE IF %j == "^*.sv" SET %2 "System variable"
+    41) ELSE IF %j == "^*.dt" SET %2 "KAREL data"
+    42) ELSE IF %j == "^*.tx" SET %2 "Dictionary text"
+    43) ELSE IF %j == "^*.bk" SET %2 "Backup"
+    44) ELSE IF %j == "^*.vrs" SET %2 "Variable listing"
+    45) ELSE IF %j == "^*.svs" SET %2 "System variable listing"
+    46) ELSE IF %j == "^*.xrf" SET %2 "Cross reference listing"
+    47) ELSE IF NOT %j == "^*.^*" GOTO #60
+    48) ELSE SET %2 "None"
+    49) SET %1 "%j"
+    50) GOTO #999
+
+    #) LABEL "NEW"
+    #) CLEAR
+    #) PROMPT #2 "  Enter file name: " %j
+    #) GOTO #35
+    
+    60) CLEAR
+    61) ECHO #2 "%@26 Select Working File Type"
+    62) ITEM #4 "A) Program File Type" IF %H == "%o" HELP "  File extension .KL"
+    63) ITEM #5 "B) Command File Type" IF %H == "%o" HELP "  File extension .CF"
+    64) ITEM #6 "C) Listing File Type" IF %H == "%o" HELP "  File extension .LS"
+    65) ITEM #7 "D) Variable File Type" IF %H == "%o" HELP "  File extension .VR"
+    66) ITEM #8 "E) System Variable File Type" IF %H == "%o" HELP "  File extension .SV"
+    68) ITEM #9 "F) Data File Type" IF %H == "%o" HELP "  File extension .DT"
+    69) ITEM #10 "G) Text File Type" IF %H == "%o" HELP "  File extension .TX"
+    70) ITEM #11 "H) Backup File Type" IF %H == "%o" HELP "  File extension .BK"
+    71) ITEM #12 "I) Variable Listing Type" IF %H == "%o" HELP "  File extension .VRS"
+    72) ITEM #13 "J) System Variable Listing Type" IF %H == "%o" HELP "  File extension .SVS"
+    73) ITEM #14 "K) Cross Reference Listing Type" IF %H == "%o" HELP "  File extension .XRF"
+    74) ITEM #15 "L) No File Type" IF %H == "%o" HELP "  No file extension"
+    75) SELECT %0
+    76)      IF %0 == "A^*" GOTO ".KL"
+    77) ELSE IF %0 == "B^*" GOTO ".CF"
+    78) ELSE IF %0 == "C^*" GOTO ".LS"
+    79) ELSE IF %0 == "D^*" GOTO ".VR"
+    80) ELSE IF %0 == "E^*" GOTO ".SV"
+    81) ELSE IF %0 == "F^*" GOTO ".DT"
+    82) ELSE IF %0 == "G^*" GOTO ".TX"
+    83) ELSE IF %0 == "H^*" GOTO ".BK"
+    84) ELSE IF %0 == "I^*" GOTO ".VRS"
+    85) ELSE IF %0 == "J^*" GOTO ".SVS"
+    86) ELSE IF %0 == "K^*" GOTO ".XRF"
+    88) ELSE GOTO "NONE"
+
+    100) LABEL ".KL"
+    #) SET %2 "Program"
+    #) SET %1 "%j.KL"
+    #) GOTO #999
+
+    #) LABEL ".CF"
+    #) SET %2 "Command"
+    #) SET %1 "%j.CF"
+    #) GOTO #999
+
+    #) LABEL ".LS"
+    #) SET %2 "Listing"
+    #) SET %1 "%j.LS"
+    #) GOTO #999
+
+    #) LABEL ".VR"
+    #) SET %2 "Variable"
+    #) SET %1 "%j.VR"
+    #) GOTO #999
+
+    #) LABEL ".SV"
+    #) SET %2 "System variable"
+    #) SET %1 "%j.SV"
+    #) GOTO #999
+
+    #) LABEL ".DT"
+    #) SET %2 "KAREL data"
+    #) SET %1 "%j.DT"
+    #) GOTO #999
+
+    #) LABEL ".VRS"
+    #) SET %2 "Variable listing"
+    #) SET %1 "%j.VRS"
+    #) GOTO #999
+
+    #) LABEL ".XRF"
+    #) SET %2 "Cross reference listing"
+    #) SET %1 "%j.XRF"
+    #) GOTO #999
+
+    #) LABEL "NONE"
+    #) SET %2 "None"
+    #) SET %1 "%j"
+    #) GOTO #999
+
+    #) LABEL ".TX"
+    #) SET %2 "Dictionary text"
+    #) SET %1 "%j.TX"
+    #) GOTO #999
+
+    #) LABEL ".SVS"
+    #) SET %2 "System variable listing"
+    #) SET %1 "%j.SVS"
+    #) GOTO #999
+
+    #) LABEL ".BK"
+    #) SET %2 "Backup file type"
+    #) SET %1 "%j.BK"
+
+    999) REM end function #1
+
+  B) FUNCTION #2 -- Change current directory
+    1) ECHO #2 "%@26 New Default Directory Path"
+    2) ECHO #4 "   %+H%+72L%+J"
+    3) ECHO #5 "   %+O Directory: %@59[ %+N"
+    4) ECHO #6 "   %+O File: %@64F %+N"
+    5) ECHO #7 "   %+O Type: %@30T%@35 %+N"
+    6) ECHO #8 "   %+I%+72M%+K"
+
+    7) PROMPT #11 %q "  New directory path: " -
+      HELP "  Do not enter the trailing backslash (\)."
+    8) IF %q == "^*:^*" DOS #1 "%*A:" -- changes drive
+    9) IF %q == "^*:" GOTO #15
+    10) IF %q == "^*:\" GOTO #13
+    11) IF %q == "\" GOTO #13
+    12) IF %q == "^*\" SET %q "%*A" -- strip trailing backslash
+    13) SET %p "^n  Changing default directory to %q^n"
+    14) DOS #1 %p "COMMAND /C CD %q" -- faster than "CD..."
+    15) REM -- done
+
+  C) FUNCTION #3
+  
+  -- This function sets up the program development options
+  
+    1) SET %z ""
+    2) IF %z == "" GOTO #65
+    3) IF %z == "" GOTO #75
+    4) IF %z == "" GOTO #85
+    5) IF %z == "" GOTO #95
+    6) IF %z == "" GOTO #105
+    8) IF %z == "" GOTO #125
+    9) IF %z == "" GOTO #135
+    10) IF %z == "" GOTO #145
+    11) IF %z == "" GOTO #155
+    12) IF %z == "" GOTO #215
+    13) IF %z == "" GOTO #225
+    14) IF %z == "" GOTO #250
+
+    50) SELECT %z
+    51) IF %z == "D^*" GOTO #60
+    52) ELSE IF %z == "T^*" GOTO #70
+    52) ELSE IF %z == "O^*" GOTO #80
+    53) ELSE IF %z == "L^*" GOTO #90
+    54) ELSE IF %z == "P^*" GOTO #100
+    55) ELSE IF %z == "I^*" GOTO #120
+    55) ELSE IF %z == "U^*" GOTO #130
+    55) ELSE IF %z == "A^*" GOTO #140
+    55) ELSE IF %z == "F^*" GOTO #150
+    56) ELSE IF %z == "S^*" GOTO #200
+    56) ELSE IF %z == "M^*" GOTO #220
+    57) ELSE GOTO #999
+
+    60) QUERY #19 %q "%@16 New editor [%E]: "
+    61) IF NOT %q == "" SET %E "%q"
+    62) ECHO #19 ""
+    65) ITEM #4 "Default Editor%@8 [%@12E]" IF %H == "%o" -
+      HELP "  Sets default editor for text files."
+    66) GOTO #3
+
+    70) IF %g == "" SET %g "/L"
+    72) ELSE SET %g ""
+    75) IF %g == "" GOTO #78
+    76) ITEM #5 "Translator Listing File%@10 [^254]" IF %H == "%o" -
+      HELP "  Translator listing file (.LS) is enabled."
+    77) GOTO #4
+    78) ITEM #5 "Translator Listing File%@10 [ ]" IF %H == "%o" -
+      HELP "  Translator listing file (.LS) is disabled."
+    79) GOTO #4
+
+    80) IF %B == "" SET %B "/D"
+    82) ELSE SET %B ""
+    85) IF %B == "" GOTO #88
+    86) ITEM #6 "Output Translator Display%@8 [^254]" IF %H == "%o" -
+      HELP "  Translator screen output is disabled."
+    87) GOTO #5
+    88) ITEM #6 "Output Translator Display%@8 [ ]" IF %H == "%o" -
+      HELP "  Translator screen output is enabled."
+    89) GOTO #5
+
+    90) IF %e == "" SET %e "/L"
+    93) ELSE SET %e ""
+    95) IF %e == "" GOTO #98
+    96) ITEM #7 "Line Numbering in Print Listing  [^254]" IF %H == "%o" -
+      HELP "  Line numbering in print listing is enabled."
+    97) GOTO #6
+    98) ITEM #7 "Line Numbering in Print Listing  [ ]" IF %H == "%o" -
+      HELP "  Line numbering in print listing is disabled."
+    99) GOTO #6
+
+    100) IF %d == "" SET %d "/P"
+    103) ELSE SET %d ""
+    105) IF %d == "" GOTO #108
+    106) ITEM #8 "Paging in Print Listing%@10 [ ]" IF %H == "%o" -
+      HELP "  Hard paging (form feeds) in print listing is disabled."
+    107) GOTO #8
+    108) ITEM #8 "Paging in Print Listing%@10 [^254]" IF %H == "%o" -
+      HELP "  Hard paging (form feeds) in print listing is enabled."
+    109) GOTO #8
+
+    120) QUERY #19 %q "%@16 Line indentation [%k]: " -
+      HELP "  Number of spaces to indent text lines (0 - 16, 0 is hard tab)."
+    121) IF NOT %q == "" SET %k "%q"
+    122) ECHO #19 ""
+    125) ITEM #10 "Indentation Spaces%@14 [%@2k]" IF %H == "%o" -
+      HELP "  Set line indentation for formatter."
+    126) GOTO #9
+
+    130) IF %u == "2" SET %u "4"
+    133) ELSE SET %u "2"
+    135) IF %u == "4" GOTO #138
+    136) ITEM #11 "User Defined Names Lower Case    [^254]" IF %H == "%o" -
+      HELP "  Lower case all user defined names in a program file."
+    137) GOTO #10
+    138) ITEM #11 "User Defined Names Lower Case    [ ]" IF %H == "%o" -
+      HELP "  Capitalize all user defined names in a program file."
+    139) GOTO #10
+
+    140) IF %r == "4" SET %r "3"
+    143) ELSE SET %r "4"
+    145) IF %r == "3" GOTO #148
+    146) ITEM #12 "Adjust Comments to Midscreen     [^254]" IF %H == "%o" -
+      HELP "  Move all in-line comments to column 40."
+    147) GOTO #11
+    148) ITEM #12 "Adjust Comments to Midscreen     [ ]" IF %H == "%o" -
+      HELP "  Keep all in-line comments in current column."
+    149) GOTO #11
+
+    150) IF %A == "" SET %A "/T"
+    152) ELSE SET %A ""
+    155) IF %A == "" GOTO #158
+    156) ITEM #13 "Formatter Output to Screen%@7 [ ]" IF %H == "%o" -
+      HELP "  Formatter screen output is disabled."
+    157) GOTO #12
+    158) ITEM #13 "Formatter Output to Screen%@7 [^254]" IF %H == "%o" -
+      HELP "  Formatter screen output is enabled."
+    159) GOTO #12
+
+    200) SET %E ""
+    201) SET %q ""
+    202) SET %g ""
+    203) SET %e "/L"
+    206) SET %d ""
+    207) SET %k "2" -- formatter indent
+    208) SET %u "2" -- formatter user word
+    209) SET %r "4" -- formatter comment processing
+    210) SET %A ""  -- formatter display
+    211) SET %B ""  -- translator display
+    212) GOTO #1
+    215) ITEM #14 "Set All to Default" IF %H == "%o" -
+      HELP "  Set all above options to start-up defaults."
+    216) GOTO #13
+
+    220) SAVE
+    225) ITEM #15 "Make selected options permanent" IF %H == "%o" -
+      HELP "  Save all options to %]KAREL.DAT."
+    226) GOTO #14
+
+    250) ITEM #17 "Exit Options Setup" IF %H == "%o" -
+      HELP "  Return to previous screen."
+    251) GOTO #50
+    
+    999) REM -- exit program option setup
+
+  D) FUNCTION #4
+  
+  -- This function sets up the communications options
+  
+    1) SET %z ""
+    2) IF %z == "" GOTO #65
+    3) IF %z == "" GOTO #75
+    6) IF %z == "" GOTO #118
+    7) IF %z == "" GOTO #123
+    8) IF %z == "" GOTO #125
+
+    50) SELECT %z
+    51) IF %z == "C^*" GOTO #60
+    52) ELSE IF %z == "U^*" GOTO #70
+    56) ELSE IF %z == "S^*" GOTO #110
+    57) ELSE IF %z == "M^*" GOTO #120
+    58) ELSE GOTO #999
+
+    60) IF %c == "COM1" SET %c "COM2"
+    61) ELSE IF %c == "COM2" SET %c "COM3"
+    62) ELSE IF %c == "COM3" SET %c "COM4"
+    63) ELSE SET %c "COM1"
+    65) ITEM #4 "Comm Port for KCL COPY%@9 [%c]" IF %H == "%o" -
+      HELP "  PC communications port used by floppy disk simulator."
+    66) GOTO #3
+
+    70) IF %K == "%f" SET %K "%o"
+    71) ELSE SET %K "%f"
+    75) IF %K == "%o" GOTO #78
+    76) ITEM #5 "Use old floppy emulator%@8 [ ]" IF %H == "%o" -
+      HELP "  Use KFLOPPY as the PS-100/200 floppy disk drive emulator."
+    77) GOTO #6
+    78) ITEM #5 "Use old floppy emulator%@8 [^254]" IF %H == "%o" -
+      HELP "  Use KFDCOPY as the PS-100/200 floppy disk drive emulator."
+    79) GOTO #6
+
+    110) SET %c "COM1"
+    111) SET %K "%f"
+    116) GOTO #1
+    118) ITEM #8 "Set All to Default" IF %H == "%o" -
+      HELP "  Set all above options to start-up defaults."
+    119) GOTO #7
+
+    120) SAVE
+    123) ITEM #9 "Make selected options permanent" IF %H == "%o" -
+      HELP "  Save all options to %]KAREL.DAT."
+    124) GOTO #8
+
+    125) ITEM #11 "Exit port options setup" IF %H == "%o" -
+      HELP "  Return to previous screen."
+    126) GOTO #50
+    
+    999) REM -- exit port option setup
+
+  E) FUNCTION #5
+    1) QUERY #2 %p "                File specification [*.*]: " IF %H == "%o" -
+      HELP "  Enter one or more DOS file specifications separated by spaces."
+    2) IF %p == "" SET %p "*.*"
+    3) FILE "%p" HELP "  Press Enter to return."
+
+  N) FUNCTION #14
+  
+  -- This function processes DOS commands.
+  -- %4 meaning: "#nnn$*+"
+  --              |   ||+- If present, %Y holds message to display
+  --              |   |+-- If present, Pause after execution
+  --              |   +--- If present, Don't clear menu screen
+  --              +------- If #1: Pause if errorlevel > 0, show status
+  --                        #256: Pause if errorlevel > 0, no status
+  --
+  
+    1) SET %0 "%y"  -- yes if function ok
+    2) IF %4 == "^*$^*" SET %z "%-C"
+    3) ELSE SET %z "%-H"
+    4) IF NOT %4 == "^*+^*" SET %Y "%z"
+    5) STATUS
+
+    7) IF NOT %1 == "^*.^*" GOTO #10
+    8) IF EXIST "%1" GOTO #80
+    9) ELSE GOTO #40
+    10) IF EXIST "%1.BAT" GOTO #80
+    20) IF EXIST "%1.COM" GOTO #80
+    30) IF EXIST "%1.EXE" GOTO #80
+    40) CLEAR
+    45) ECHO #2 "%@9 Cannot find executable file (%1) for this selection."
+    50) ECHO #4 "%@19 If this option has been purchased, then"
+    55) ECHO #6 "  set search path to find the file or insert diskette that contains the file."
+    60) PAUSE %v #8 "%@19 Press ENTER to retry or F10 to cancel."
+    65) IF NOT %v == "^r" GOTO #70
+    66) CLEAR
+    67) GOTO #7
+    70) STATUS "Operation canceled."
+    75) SET %0 "%n"
+    76) GOTO #999
+
+    80) SET %p "%&"    
+    80) IF %4 == "^*$^*" GOTO #140
+    85) IF %4 == "^**^*" GOTO #115
+    90) IF %p == "^*.BAT" GOTO #105
+    95) DOS %Y "%p %2" IF %4 == "#1^*" IF ERRORLEVEL #1 PAUSE "%M"
+    100) GOTO #200
+    105) DOS %Y "COMMAND /C %p %2"
+    110) GOTO #200
+    115) IF %p == "^*.BAT" GOTO #130
+    120) DOS %Y "%p %2" IF NOT ERRORLEVEL #256 PAUSE "%M"
+    125) GOTO #200
+    130) DOS %Y "COMMAND /C %p %2" IF NOT ERRORLEVEL #256 PAUSE "%M"
+    135) GOTO #200
+    
+    140) IF %4 == "^**^*" GOTO #170
+    145) IF %p == "^*.BAT" GOTO #160
+    150) DOS %Y #1 "%p %2" IF %4 == "#1^*" IF ERRORLEVEL #1 PAUSE "%M"
+    155) GOTO #200
+    160) DOS %Y #1 "COMMAND /C %p %2"
+    165) GOTO #200
+    170) IF %p == "^*.BAT" GOTO #185
+    175) DOS %Y #1 "%p %2" IF NOT ERRORLEVEL #256 PAUSE "%M"
+    180) GOTO #200
+    185) DOS %Y #1 "COMMAND /C %p %2" IF NOT ERRORLEVEL #256 PAUSE "%M"
+    
+    200) IF ERRORLEVEL #65533 STATUS "%3: Command string too long."
+    205) ELSE IF ERRORLEVEL #65528 STATUS "%3: Executable not found."
+    210) ELSE IF ERRORLEVEL #65527 STATUS "%3: File not executable."
+    215) ELSE IF ERRORLEVEL #65523 STATUS "%3: Insufficient memory."
+    220) ELSE IF %4 == "#256^*" GOTO #999 -- no MSDOS errors
+    225) ELSE IF ERRORLEVEL #1 STATUS "%3: DOS return error #%=."
+    230) ELSE GOTO #999 -- no errors
+    235) SET %0 "%n" -- an error occured
+    999) REM -- end DOS function.
+    
+  O) FUNCTION #15
+
+  -- This function does an edit
+  
+    1) IF NOT %E == "" GOTO "Edit"
+    #) CLEAR
+    #) SET %i "@1861"
+    #) LIST %i "%]KAREL.HLP"
+    #) PAUSE "%M"
+    #) GOTO "End"
+    #) LABEL "Edit"
+    #) IF %F == "-^*" FUNCTION #1 %W "%%F%%T"
+    #) SET %X "#256"
+    #) SET %V "%F %_"
+    #) CLEAR
+    #) IF NOT %E == "KEDIT^*" SET %V "%F"
+    #) SET %U "%E"
+    #) SET %W "Editor"
+    #) FUNCTION #14 %Z "%%U%%V%%W%%X"
+    #) LABEL "End"
+
+  P) FUNCTION #16
+  
+  -- This function sets up the working file name for dictionary compressor
+  
+    1) STATUS
+    #) ECHO #1 "   %+H%+72L%+J"
+    #) ECHO #2 "   %+O Directory: %@59[ %+N"
+    #) ECHO #3 "   %+O File: %@64F %+N"
+    #) ECHO #4 "   %+O Type: %@30T%@35 %+N"
+    #) ECHO #5 "   %+I%+72M%+K"
+
+    #) ECHO #6 "                          Select Search File Type"
+    #) ITEM #10  "New File Name" IF %H == "%o" HELP "  Manually enter a file name."
+    #) ITEM #11 "User Dictionary Type" IF %H == "%o" HELP "  File extension .UTX"
+    #) ITEM #12 "Error Dictionary Type" IF %H == "%o" HELP "  File extension .ETX"
+    #) ITEM #13 "Form Dictionary Type" IF %H == "%o" HELP "  File extension .FTX"
+    #) ITEM #14 "Standard Dictionary Type" IF %H == "%o" HELP "  File extension .TX"
+    #) ITEM #15 "All Dictionary Types" IF %H == "%o" -
+          HELP "  File extensions .TX .UTX, .ETX, and .FTX"
+    #) ITEM #16 "Whole Directory"
+    #) SELECT %0
+
+    #) IF %0 == "N^*" GOTO "New"
+    #) HELP "  Use TAB to switch between select mode and entry mode."
+    #) IF %0 == "U^*" FILE %j "*.utx"
+    #) ELSE IF %0 == "E^*" FILE %j "*.etx"
+    #) ELSE IF %0 == "F^*" FILE %j "*.ftx"
+    #) ELSE IF %0 == "S^*" FILE %j "*.tx"
+    #) ELSE IF %0 == "A^*" FILE %j "*.tx *.utx *.etx *.ftx"
+    #) ELSE FILE %j "*.*"
+
+    #) LABEL "Type"
+    #) IF %j == "^*.utx" SET %2 "User Dictionary"
+    #) ELSE IF %j == "^*.etx" SET %2 "Error Dictionary"
+    #) ELSE IF %j == "^*.ftx" SET %2 "Form Dictionary"
+    #) ELSE IF %j == "^*.tx" SET %2 "Dictionary"
+    #) ELSE IF NOT %j == "^*.^*" GOTO "Ftype"
+    #) ELSE SET %2 "None"
+    #) SET %1 "%j"
+    #) GOTO #999
+
+    #) LABEL "Ftype"
+    #) CLEAR
+    #) ECHO #4  "%@26 Select Dictionary File Type"
+    #) ITEM #8  "User Dictionary Type" IF %H == "%o" HELP "  File extension .UTX"
+    #) ITEM #10 "Error Dictionary Type" IF %H == "%o" HELP "  File extension .ETX"
+    #) ITEM #12 "Form Dictionary Type" IF %H == "%o" HELP "  File extension .FTX"
+    #) ITEM #14 "Standard Dictionary Type" IF %H == "%o" HELP "  File extension .TX"
+    #) SELECT %0
+    #)      IF %0 == "U^*" GOTO "User"
+    #) ELSE IF %0 == "E^*" GOTO "Error"
+    #) ELSE IF %0 == "F^*" GOTO "Form"
+    #) ELSE IF %0 == "S^*" GOTO "Std"
+    #) ELSE GOTO "None"
+
+    #) LABEL "User"
+    #) SET %2 "User Dictionary"
+    #) SET %1 "%j.UTX"
+    #) GOTO #999
+
+    #) LABEL "Error"
+    #) SET %2 "Error Dictionary"
+    #) SET %1 "%j.ETX"
+    #) GOTO #999
+
+    #) LABEL "Form"
+    #) SET %2 "Form Dictionary"
+    #) SET %1 "%j.FTX"
+    #) GOTO #999
+
+    #) LABEL "Std"
+    #) SET %2 "Dictionary"
+    #) SET %1 "%j.TX"
+    #) GOTO #999
+
+    #) LABEL "None"
+    #) SET %2 "None"
+    #) SET %1 "%j"
+    #) GOTO #999
+
+    #) LABEL "New"
+    #) CLEAR
+    #) PROMPT #2 "  Enter file name: " %j
+    #) GOTO "Type"
+    
+    999) REM end function #16

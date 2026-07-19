@@ -1,0 +1,13 @@
+KFLOPPY Version V1.20P, Copyright (C) 1993, through 1995, FANUC Robotics Corp.
+Off line PS-100/200 Floppy Emulator for DOS
+
+[Wed Nov 08 17:33:53 2006] No activity
+[Wed Nov 08 17:34:06 2006] Directory requested
+[Wed Nov 08 17:34:32 2006] Directory request complete
+[Wed Nov 08 17:34:38 2006] Error opening file 'AAA.PCC' for read
+[Wed Nov 08 17:34:43 2006] Sending file 'AAA.PC'
+[Wed Nov 08 17:34:50 2006] File transferred, 1359 bytes
+[Wed Nov 08 17:34:50 2006] Error opening file 'TESTKRL6.PCC' for read
+[Wed Nov 08 17:34:50 2006] Sending file 'TESTKRL6.PC'
+[Wed Nov 08 17:34:56 2006] File transferred, 1370 bytes
+

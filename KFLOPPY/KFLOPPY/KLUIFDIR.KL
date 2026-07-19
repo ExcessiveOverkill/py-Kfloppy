@@ -1,0 +1,49 @@
+--
+--    This material is the joint property of GMFanuc Robotics Corporation  and
+--    FANUC  LTD  Japan,  and  must  be  returned  to  either GMFanuc Robotics
+--    Corporation or FANUC LTD Japan immediately upon request.  This  material
+--    and   the  information  illustrated  or  contained  herein  may  not  be
+--    reproduced, copied, used, or transmitted in whole or in part in any  way
+--    without the prior written consent of both GMFanuc Robotics and FANUC.
+--    
+--             All Rights Reserved
+--             Copyright (C)   1992
+--             GMFanuc Robotics Corporation
+--             FANUC LTD Japan
+--    
+--             Karel is a registered trademark of
+--             GMFanuc Robotics Corporation
+--    +
+--    Include File: kluifdir - KAREL UIF Softpart Translator Directives
+--    
+--    Description:
+--    
+--      This include file contains the standard translator directives
+--      which should be included with all KAREL UIF Softparts.
+--    
+--    Dependancies:
+--    
+--     
+--    
+--    Language: KAREL
+--    
+--    Source File: kluifdir.kl    16-MAR-92   01:59PM
+--    
+--    Author: KARGLJT     
+--            GMFanuc Robotics Corporation
+--            2000 South Adams Road
+--            Auburn Hills, Michigan    48326-2800
+--    
+--    Modification history:
+--
+--    10-APR-21 V1.1 TKB Add %INVISIBLE
+--
+
+
+%SYSTEM
+%INVISIBLE
+%NOABORT = ERROR + COMMAND
+%NOPAUSE = ERROR + COMMAND + TPENABLE
+%NOBUSYLAMP
+%NOLOCKGROUP
+%PRIORITY=100

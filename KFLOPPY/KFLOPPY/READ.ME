@@ -1,0 +1,25 @@
+KFLOPPY-DOS PS-100/200 Floppy Disk Drive Emulator supplimental information
+
+This file contains supplemetal information not given in the manual.
+
+New command option switch
+
+The KFLOPPY interactive menus only update the screen during vertical retrace
+if a Color Graphics Adapter (CGA) video card is being used.  This is to 
+prevent the "snow" or "green lightning" that is present on the original
+IBM PC.  On the old 8088 PCs, this makes the menus run slow and there is a
+delay from when a key is pressed and an action is displayed.  If your PC
+has a CGA card but is not subject to snow, you can disable this feature.
+By using the "/s" switch on the command line, you can speed up the menus:
+
+	C:\> KFLOPPY /s
+
+This disables snow suppression.  If you perform a "Save settings" from the
+"Setup" menu, the command "Snow On" will be put in the initialization file.
+
+Operational Limitations
+
+The mouse cursor disappears and the mouse is disabled while the "Emulate"
+panel is displayed.  You must use the keyboard to stop emulation.  Once the
+"Emulate" panel is removed, mouse operation is re-enabled.
+

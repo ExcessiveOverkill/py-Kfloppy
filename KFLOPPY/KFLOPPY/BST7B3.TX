@@ -1,0 +1,25 @@
+[BST7B3] PRE_PASSES  Storage: IMAGE  Access: RW  : INTEGER = 0
+
+[BST7B3] BC_PASSES  Storage: IMAGE  Access: RW  : INTEGER = 0
+
+[BST7B3] TC_PASSES  Storage: IMAGE  Access: RW  : INTEGER = 65
+
+[BST7B3] PASS_COUNT  Storage: IMAGE  Access: RW  : INTEGER = 65
+
+[BST7B3] TOP  Storage: IMAGE  Access: RW  : XYZWPR = 
+  Group: 1   Config: F R U T, 0, 0, 0
+  X:  1366.822   Y:   559.716   Z:   328.256
+  W:    88.256   P:    -1.851   R:    89.495
+
+[BST7B3] BOTTOM  Storage: IMAGE  Access: RW  : XYZWPR = 
+  Group: 1   Config: F R U T, 0, 0, 0
+  X:  1382.182   Y:   559.715   Z:   287.936
+  W:    89.552   P:    -1.839   R:    89.453
+
+[BST7B3] START_POS  Storage: IMAGE  Access: RW  : XYZWPR = 
+  Group: 1   Config: F R U T, 0, 0, 0
+  X:  1254.188   Y:   559.706   Z:   591.220
+  W:    89.075   P:    -1.842   R:    89.468
+
+[BST7B3] DIST  Storage: IMAGE  Access: RW  : REAL = Uninitialized
+

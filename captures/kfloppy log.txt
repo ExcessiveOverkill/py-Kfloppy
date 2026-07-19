@@ -1,0 +1,89 @@
+KFLOPPY Version V1.20P, Copyright (C) 1993, through 1995, FANUC Robotics Corp.
+Off line PS-100/200 Floppy Emulator for DOS
+
+[Sat Jul 18 17:30:16 2026] No activity
+[Sat Jul 18 17:30:37 2026] Received read file request
+[Sat Jul 18 17:30:37 2026] Sending file 'TEST1.TP'
+[Sat Jul 18 17:30:37 2026] Received clear request
+[Sat Jul 18 17:30:37 2026] File closed
+[Sat Jul 18 17:31:44 2026] Received read file request
+[Sat Jul 18 17:31:44 2026] Error opening file 'TEST2.TP' for read
+[Sat Jul 18 17:31:44 2026] Received status request
+[Sat Jul 18 17:31:44 2026] Received write file request
+[Sat Jul 18 17:31:44 2026] Receiving file 'TEST2.TP'
+[Sat Jul 18 17:31:44 2026] Writing a data block
+[Sat Jul 18 17:31:45 2026] Writing a data block
+[Sat Jul 18 17:31:45 2026] Received clear request
+[Sat Jul 18 17:31:45 2026] File transferred, 147 bytes
+[Sat Jul 18 17:32:16 2026] Received read file request
+[Sat Jul 18 17:32:16 2026] Sending file 'TEST2.TP'
+[Sat Jul 18 17:32:16 2026] Read a data block
+[Sat Jul 18 17:32:17 2026] Received clear request
+[Sat Jul 18 17:32:17 2026] File transferred, 128 bytes
+[Sat Jul 18 17:32:32 2026] Received read file request
+[Sat Jul 18 17:32:32 2026] Sending file 'TEST1.TP'
+[Sat Jul 18 17:32:32 2026] Read a data block
+[Sat Jul 18 17:32:32 2026] Received clear request
+[Sat Jul 18 17:32:32 2026] File transferred, 128 bytes
+[Sat Jul 18 17:32:35 2026] Received read file request
+[Sat Jul 18 17:32:35 2026] Sending file 'TEST1.TP'
+[Sat Jul 18 17:32:35 2026] Read a data block
+[Sat Jul 18 17:32:36 2026] Read a data block
+[Sat Jul 18 17:32:36 2026] Read a data block
+[Sat Jul 18 17:32:37 2026] Read a data block
+[Sat Jul 18 17:32:37 2026] Read a data block
+[Sat Jul 18 17:32:37 2026] Read a data block
+[Sat Jul 18 17:32:38 2026] Read a data block
+[Sat Jul 18 17:32:38 2026] Read a data block
+[Sat Jul 18 17:32:38 2026] Received status request
+[Sat Jul 18 17:32:39 2026] Read a data block
+[Sat Jul 18 17:32:39 2026] Received status request
+[Sat Jul 18 17:32:39 2026] Received clear request
+[Sat Jul 18 17:32:39 2026] File transferred, 881 bytes
+[Sat Jul 18 17:34:49 2026] Received read file request
+[Sat Jul 18 17:34:49 2026] Error opening file 'TEST1.LS' for read
+[Sat Jul 18 17:34:49 2026] Received status request
+[Sat Jul 18 17:34:51 2026] Received write file request
+[Sat Jul 18 17:34:51 2026] Receiving file 'TEST1.LS'
+[Sat Jul 18 17:34:51 2026] Writing a data block
+[Sat Jul 18 17:34:51 2026] Writing a data block
+[Sat Jul 18 17:34:52 2026] Writing a data block
+[Sat Jul 18 17:34:53 2026] Writing a data block
+[Sat Jul 18 17:34:54 2026] Writing a data block
+[Sat Jul 18 17:34:54 2026] Writing a data block
+[Sat Jul 18 17:34:58 2026] Writing a data block
+[Sat Jul 18 17:35:01 2026] Writing a data block
+[Sat Jul 18 17:35:03 2026] Writing a data block
+[Sat Jul 18 17:35:04 2026] Writing a data block
+[Sat Jul 18 17:35:05 2026] Writing a data block
+[Sat Jul 18 17:35:07 2026] Writing a data block
+[Sat Jul 18 17:35:07 2026] Writing a data block
+[Sat Jul 18 17:35:08 2026] Writing a data block
+[Sat Jul 18 17:35:09 2026] Writing a data block
+[Sat Jul 18 17:35:11 2026] Writing a data block
+[Sat Jul 18 17:35:13 2026] Writing a data block
+[Sat Jul 18 17:35:14 2026] Writing a data block
+[Sat Jul 18 17:35:15 2026] Writing a data block
+[Sat Jul 18 17:35:16 2026] Writing a data block
+[Sat Jul 18 17:35:16 2026] Writing a data block
+[Sat Jul 18 17:35:17 2026] Writing a data block
+[Sat Jul 18 17:35:20 2026] Writing a data block
+[Sat Jul 18 17:35:21 2026] Writing a data block
+[Sat Jul 18 17:35:24 2026] Writing a data block
+[Sat Jul 18 17:35:25 2026] Writing a data block
+[Sat Jul 18 17:35:25 2026] Writing a data block
+[Sat Jul 18 17:35:25 2026] Received clear request
+[Sat Jul 18 17:35:25 2026] File transferred, 3333 bytes
+[Sat Jul 18 17:35:57 2026] Received read file request
+[Sat Jul 18 17:35:57 2026] Error opening file 'TEST2.LS' for read
+[Sat Jul 18 17:35:57 2026] Received status request
+[Sat Jul 18 17:35:57 2026] Received write file request
+[Sat Jul 18 17:35:57 2026] Receiving file 'TEST2.LS'
+[Sat Jul 18 17:35:57 2026] Writing a data block
+[Sat Jul 18 17:35:59 2026] Writing a data block
+[Sat Jul 18 17:36:00 2026] Writing a data block
+[Sat Jul 18 17:36:01 2026] Writing a data block
+[Sat Jul 18 17:36:02 2026] Received clear request
+[Sat Jul 18 17:36:02 2026] File transferred, 493 bytes
+[Sat Jul 18 17:36:15 2026] Will exit emulation upon completion of current transcation
+

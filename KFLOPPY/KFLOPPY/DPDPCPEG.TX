@@ -1,0 +1,13 @@
+$"kcdict Version %-8.8s"#135"Copyright (C) FANUC Robotics Corp., 1985 through 1"
+"995."#135"All Rights Reserved."#135#135$"kcdict - Dictionary Compressor"#135"U"
+"sage: kcdict file_name.file_type [options]"#135"  Valid file_type's:"#135"    "
+".etx (error text file)"#135"    .utx (uncompressed text file)"#135"    .ftx (f"
+"orm manager text file)"#135"  options:"#135"    %ch (suppress help messages)"
+#135"    %cs (suppress system messages)"#135"    %cp (use for .ftx files before"
+" V3.05P)"#135$"Creating variable [%s]%s"#135$"Variable not created"#135$"Ascii"
+" code %d, not supported in forms"#135$"Unable to reallocate variable for line "
+"data"#135$"Unable to reallocate variable for item data"#135$"Alias replacement"
+" string must be shorter"#135$"Unable to open %s"#135#135$"Loading tpzit.pc to "
+"create FORM_ITEM_T"#135#135$"P-code file not found"#135$"Unable to load p-code"
+" file"#135#135$"Saving form data to %s file"#135$"Unable to save file"#135#135
+$"Please convert file to stream format before using."#135$"^ ERROR"#135
