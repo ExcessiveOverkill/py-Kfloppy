@@ -14,9 +14,47 @@ This first implementation slice provides:
 
 ## Run
 
+### Option 1: Direct module execution (no install)
+
+From the `python/` directory:
 ```bash
-python -m pip install -e .
-pykfloppy --config config/kfloppy.ini --root ..\captures
+cd python
+python -m kfloppy --config config/kfloppy.ini --root ..\captures --dry-run
 ```
 
-If you do not want to open a serial port yet, use `--dry-run`.
+### Option 2: Using the convenience runner script
+
+From the `python/` directory:
+```bash
+cd python
+python run_kfloppy.py --config config/kfloppy.ini --root ..\captures --dry-run
+```
+
+Or from the workspace root:
+```bash
+python run_kfloppy.py --config python/config/kfloppy.ini --root captures --dry-run
+```
+
+### Option 3: Install and use as a command
+
+```bash
+cd python
+python -m pip install -e .
+pykfloppy --config config/kfloppy.ini --root ..\captures --dry-run
+```
+
+### All available options
+
+```bash
+python run_kfloppy.py --help
+```
+
+Common flags:
+- `--config <path>` - Path to INI config file (optional)
+- `--root <path>` - Override MF2 root directory
+- `--port <port>` - Serial port (COM1, /dev/ttyS0, etc.)
+- `--baudrate <rate>` - Baud rate (default 19200)
+- `--parity <N|E|O>` - Parity (default N)
+- `--timeout <seconds>` - Serial timeout (default 1.0)
+- `--dry-run` - Start without opening a serial port
+- `--verbose` - Enable debug logging
